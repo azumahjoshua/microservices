@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+*.env
+
+# Python egg files
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Logs
+*.log
+
+# Docker files
+.dockerignore
+Dockerfile
+
+# Git
+.git/
+.gitignore
+
+# VSCode and editor settings
+.vscode/
+.idea/
+
+# Temp files
+*.swp
+*~
+
+# Mac OS files
+.DS_Store
