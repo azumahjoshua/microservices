@@ -1,0 +1,50 @@
+- name: Install Go
+  block:
+    - name: Download Go
+      get_url:
+        url: "https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz"
+        dest: "/tmp/go.tar.gz"
+    
+    - name: Extract Go
+      unarchive:
+        src: /tmp/go.tar.gz
+        dest: /usr/local
+        remote_src: yes
+    
+    - name: Set Go environment
+      lineinfile:
+        path: /etc/profile
+        line: |
+          export PATH=$PATH:/usr/local/go/bin
+          export GOPATH=$HOME/go
+
+    - name: Reload profile to update environment variables
+      shell: source /etc/profile
+      args:
+        executable: /bin/bash
+      become: yes
+      changed_when: false
+  tags: [go, install]
+
+# ---
+# - name: Install Go
+#   block:
+#     - name: Download Go
+#       get_url:
+#         url: "https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz"
+#         dest: "/tmp/go.tar.gz"
+    
+#     - name: Extract Go
+#       unarchive:
+#         src: /tmp/go.tar.gz
+#         dest: /usr/local
+#         remote_src: yes
+    
+#     - name: Set Go environment
+#       lineinfile:
+#         path: /etc/profile
+#         line: |
+#           export PATH=$PATH:/usr/local/go/bin
+#           export GOPATH=$HOME/go
+
+#   tags: [go, install]

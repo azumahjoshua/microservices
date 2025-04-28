@@ -1,0 +1,8 @@
+---
+- name: Configure and Install Jenkins in Single Node Mode
+  hosts: tag_Jenkins
+  become: true
+  remote_user: ubuntu
+
+  roles:
+    - jenkins

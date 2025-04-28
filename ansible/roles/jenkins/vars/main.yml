@@ -1,0 +1,40 @@
+---
+# Java configuration
+java_packages:
+  - openjdk-17-jdk  # Fallback option
+  - openjdk-21-jdk  # Primary choice
+
+# Jenkins configuration
+jenkins_repo: "deb https://pkg.jenkins.io/debian binary/"
+jenkins_http_port: 8080
+jenkins_home: /var/lib/jenkins
+
+# System dependencies
+system_packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - wget
+  - gnupg2
+  - software-properties-common
+  - lsb-release
+  - git
+  - unzip
+  - build-essential
+  - libssl-dev
+  - libreadline-dev
+  - zlib1g-dev
+
+# Docker configuration
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+
+go_version: "1.22.2"
+
+ruby_version: "3.2.3"
+rails_version: "8.0.2"
+
+# Workspace configuration
+jenkins_workspace_path: /var/lib/jenkins/workspace

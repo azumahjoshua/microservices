@@ -1,0 +1,40 @@
+---
+- name: Include system setup tasks
+  include_tasks: install_system.yml
+  tags: [system]
+
+- name: Include Java installation tasks
+  include_tasks: install_java.yml
+  tags: [java]
+
+- name: Include Jenkins installation tasks
+  include_tasks: install_jenkins.yml
+  tags: [jenkins]
+
+- name: Include Docker installation tasks
+  include_tasks: install_docker.yml
+  tags: [docker]
+
+- name: Include Go installation tasks
+  include_tasks: install_go.yml
+  tags: [go]
+
+- name: Include Python Flask installation tasks
+  include_tasks: install_python_flask.yml
+  tags: [flask]
+
+- name: Include rails installation tasks
+  include_tasks: install_rails.yml
+  tags: [ruby, rails,]
+
+- name: Include AWS CLI installation tasks
+  include_tasks: install_awscli.yml
+  tags: [awscli]
+
+- name: Include firewall configuration tasks
+  include_tasks: configure_firewall.yml
+  tags: [firewall]
+
+- name: Verify all installations
+  include_tasks: verify_installations.yml
+  tags: [verify]

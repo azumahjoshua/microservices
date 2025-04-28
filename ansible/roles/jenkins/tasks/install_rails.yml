@@ -1,0 +1,37 @@
+---
+- name: Install Ruby on Rails
+  block:
+    - name: Import RVM GPG keys
+      shell: |
+        gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+      args:
+        executable: /bin/bash
+      become: yes
+
+    - name: Install RVM
+      shell: |
+        curl -sSL https://get.rvm.io | bash -s stable
+      args:
+        executable: /bin/bash
+        creates: /usr/local/rvm/bin/rvm
+      become: yes
+
+    - name: Install Ruby
+      shell: |
+        source /etc/profile.d/rvm.sh
+        rvm install {{ ruby_version }}
+      args:
+        executable: /bin/bash
+        creates: "/usr/local/rvm/rubies/ruby-{{ ruby_version }}"
+      become: yes
+
+    - name: Install Rails
+      shell: |
+        source /etc/profile.d/rvm.sh
+        rvm use {{ ruby_version }} --default
+        gem install rails -v {{ rails_version }}
+      args:
+        executable: /bin/bash
+      become: yes
+
+  tags: [ruby, rails, install]

@@ -1,0 +1,109 @@
+- name: Verify installed services
+  block:
+    - name: Verify Java installation
+      ansible.builtin.command: java -version
+      register: java_version
+      changed_when: false
+      ignore_errors: yes
+    
+    - name: Verify Docker installation
+      ansible.builtin.command: docker --version
+      register: docker_version
+      changed_when: false
+      ignore_errors: yes
+    
+    - name: Verify Python installation
+      ansible.builtin.command: python3 --version
+      register: python_version
+      changed_when: false
+      ignore_errors: yes
+    
+    - name: Verify Flask installation
+      ansible.builtin.shell: flask --version
+      register: flask_version
+      changed_when: false
+      ignore_errors: yes
+    
+    - name: Verify Go installation
+      ansible.builtin.command: go version
+      register: go_version
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Verify Ruby installation
+      ansible.builtin.command: ruby --version
+      register: ruby_version
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Verify Rails installation
+      ansible.builtin.command: rails --version
+      register: rails_version
+      changed_when: false
+      ignore_errors: yes
+    
+    - name: Display service versions
+      ansible.builtin.debug:
+        msg:
+          - "Java: {{ java_version.stderr | default(java_version.stdout) | regex_replace('\n', '') }}"
+          - "Docker: {{ docker_version.stdout }}"
+          - "Python: {{ python_version.stdout }}"
+          - "Flask: {{ flask_version.stdout }}"
+          - "Go: {{ go_version.stdout }}"
+          - "Ruby: {{ ruby_version.stdout }}"
+          - "Rails: {{ rails_version.stdout }}"
+      tags: [debug]
+  tags: [verify, services]
+
+
+# ---
+# - name: Verify installed services
+#   block:
+#     - name: Verify Java installation
+#       ansible.builtin.command: java -version
+#       register: java_version
+#       changed_when: false
+#       ignore_errors: yes
+    
+#     - name: Verify Docker installation
+#       ansible.builtin.command: docker --version
+#       register: docker_version
+#       changed_when: false
+#       ignore_errors: yes
+    
+#     - name: Verify Go installation
+#       ansible.builtin.command: go version
+#       register: go_version
+#       changed_when: false
+#       ignore_errors: yes
+    
+#     - name: Verify Python installation
+#       ansible.builtin.command: python3 --version
+#       register: python_version
+#       changed_when: false
+#       ignore_errors: yes
+    
+#     - name: Verify Flask installation
+#       ansible.builtin.shell: |
+#         source /opt/flask_app/venv/bin/activate && flask --version
+#       register: flask_version
+#       changed_when: false
+#       ignore_errors: yes
+
+#     # - name: Verify Flask installation
+#     #   ansible.builtin.command: flask --version
+#     #   register: flask_version
+#     #   changed_when: false
+#     #   ignore_errors: yes
+    
+    
+#     - name: Display service versions
+#       ansible.builtin.debug:
+#         msg:
+#           - "Java: {{ java_version.stderr | default(java_version.stdout) | regex_replace('\n', '') }}"
+#           - "Docker: {{ docker_version.stdout }}"
+#           - "Python: {{ python_version.stdout }}"
+#           - "Flask: {{ flask_version.stdout }}"
+#           - "Go: {{ go_version.stdout }}"
+#       tags: [debug]
+#   tags: [verify, services]
