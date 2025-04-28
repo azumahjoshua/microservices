@@ -1,0 +1,39 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Output of go build
+bin/
+build/
+dist/
+
+# Go module cache
+pkg/
+
+# Vendor directory (if you are not using it)
+vendor/
+
+# Git
+.git/
+.gitignore
+
+# Editor config
+.vscode/
+.idea/
+
+# Temp files
+*.log
+*.tmp
+*.swp
+*~
+
+# Docker
+.dockerignore
+Dockerfile
+
+# MacOS files
+.DS_Store
