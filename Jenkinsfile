@@ -40,23 +40,12 @@ pipeline {
             }
         }
 
-        stage('Retrieve AWS Account ID') {
-            steps {
-                script {
-                    env.AWS_ACCOUNT_ID = sh(
-                        script: "aws sts get-caller-identity --query Account --output text",
-                        returnStdout: true
-                    ).trim()
-                }
-            }
-        }
-
-        stage('Authenticate to ECR') {
+        stage('Authenticate to ECR Public') {
             steps {
                 script {
                     sh """
-                        aws ecr get-login-password --region ${AWS_REGION} | \
-                        docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                        aws ecr-public get-login-password --region ${AWS_REGION} | \
+                        docker login --username AWS --password-stdin public.ecr.aws
                     """
                 }
             }
@@ -78,9 +67,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker tag ${ECR_REPOSITORY_RAILS}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
-                        docker tag ${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
-                        docker tag ${ECR_REPOSITORY_GO}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
+                        docker tag ${ECR_REPOSITORY_RAILS}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
+                        docker tag ${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
+                        docker tag ${ECR_REPOSITORY_GO}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
                     """
                 }
             }
@@ -90,9 +79,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
-                        docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
-                        docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
+                        docker push public.ecr.aws/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
+                        docker push public.ecr.aws/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
+                        docker push public.ecr.aws/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
                     """
                 }
             }
