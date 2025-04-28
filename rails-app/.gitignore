@@ -1,0 +1,143 @@
+# Standard Rails ignores
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+
+# Environment files
+/.env*
+!.env.example
+
+# Dependency directories
+/node_modules
+/vendor/bundle
+/.bundle
+
+# Generated assets
+/public/assets
+/public/packs
+/public/packs-test
+
+# Cache files
+.byebug_history
+*.swp
+*.swo
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+
+# OS metadata
+.DS_Store
+
+# Database files
+/db/*.sqlite3
+/db/*.sqlite3-*
+
+# Test coverage
+/coverage/
+
+# Yarn artifacts
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Ruby version manager files
+.ruby-version
+.rbenv-vars
+
+# Rails master key
+/config/master.key
+/config/credentials/*.key
+
+# Temp files
+*.orig
+*~
+
+# JavaScript tooling
+/public/vite
+
+# Asset pipeline
+/public/vite-dev
+/public/vite-test
+
+# Docker
+.env.local
+# *.rbc
+# capybara-*.html
+# .rspec
+# /db/*.sqlite3
+# /db/*.sqlite3-journal
+# /db/*.sqlite3-[0-9]*
+# /public/system
+# /coverage/
+# /spec/tmp
+# *.orig
+# rerun.txt
+# pickle-email-*.html
+
+# # # Ignore all logfiles and tempfiles.
+# /log
+# /tmp
+# !/log/.keep
+# !/tmp/.keep
+
+# /.github/
+
+# # # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
+# config/initializers/secret_token.rb
+# config/master.key
+
+# # # Only include if you have production secrets in this file, which is no longer a Rails default
+# # config/secrets.yml
+
+# # # dotenv, dotenv-rails
+# # # TODO Comment out these rules if environment variables can be committed
+# .env
+# .env*.local
+
+# # ## Environment normalization:
+# /.bundle
+# /vendor/bundle
+
+# # # these should all be checked in to normalize the environment:
+# Gemfile.lock, .ruby-version, .ruby-gemset
+
+# # # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+# .rvmrc
+
+# # # if using bower-rails ignore default bower_components path bower.json files
+# # /vendor/assets/bower_components
+# *.bowerrc
+# bower.json
+
+# # # Ignore pow environment settings
+# .powenv
+
+# # # Ignore Byebug command history file.
+# .byebug_history
+
+# # # Ignore node_modules
+# node_modules/
+
+# # # Ignore precompiled javascript packs
+# /public/packs
+# /public/packs-test
+# /public/assets
+
+# # # Ignore yarn files
+# /yarn-error.log
+# yarn-debug.log*
+# .yarn-integrity
+
+# # # Ignore uploaded files in development
+# /storage/*
+# !/storage/.keep
+# /public/uploads
