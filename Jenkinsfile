@@ -1,9 +1,9 @@
 pipeline {
     agent any
-
-    environment {
+     environment {
         AWS_REGION = 'us-east-1'                  
         IMAGE_TAG = "${BUILD_NUMBER}"             
+        ECR_REGISTRY_ALIAS = 'g8x5p5b7'
 
         ECR_REPOSITORY_RAILS = 'rails-service-repo'    
         ECR_REPOSITORY_PYTHON = 'python-service-repo'   
@@ -39,7 +39,6 @@ pipeline {
                 }
             }
         }
-
         stage('Authenticate to ECR Public') {
             steps {
                 script {
@@ -50,7 +49,6 @@ pipeline {
                 }
             }
         }
-
         stage('Build Docker Images') {
             steps {
                 script {
@@ -62,14 +60,13 @@ pipeline {
                 }
             }
         }
-
-        stage('Tag Docker Images') {
+         stage('Tag Docker Images') {
             steps {
                 script {
                     sh """
-                        docker tag ${ECR_REPOSITORY_RAILS}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
-                        docker tag ${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
-                        docker tag ${ECR_REPOSITORY_GO}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
+                        docker tag ${ECR_REPOSITORY_RAILS}:${IMAGE_TAG} public.ecr.aws/${ECR_REGISTRY_ALIAS}/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
+                        docker tag ${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG} public.ecr.aws/${ECR_REGISTRY_ALIAS}/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
+                        docker tag ${ECR_REPOSITORY_GO}:${IMAGE_TAG} public.ecr.aws/${ECR_REGISTRY_ALIAS}/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
                     """
                 }
             }
@@ -79,13 +76,61 @@ pipeline {
             steps {
                 script {
                     sh """
-                        docker push public.ecr.aws/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
-                        docker push public.ecr.aws/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
-                        docker push public.ecr.aws/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
+                        docker push public.ecr.aws/${ECR_REGISTRY_ALIAS}/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
+                        docker push public.ecr.aws/${ECR_REGISTRY_ALIAS}/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
+                        docker push public.ecr.aws/${ECR_REGISTRY_ALIAS}/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
                     """
                 }
             }
         }
+    
+
+        // stage('Authenticate to ECR Public') {
+        //     steps {
+        //         script {
+        //             sh """
+        //                 aws ecr-public get-login-password --region ${AWS_REGION} | \
+        //                 docker login --username AWS --password-stdin public.ecr.aws
+        //             """
+        //         }
+        //     }
+        // }
+
+        // stage('Build Docker Images') {
+        //     steps {
+        //         script {
+        //             sh """
+        //                 docker build -t ${ECR_REPOSITORY_RAILS}:${IMAGE_TAG} ./rails-app
+        //                 docker build -t ${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG} ./python-service
+        //                 docker build -t ${ECR_REPOSITORY_GO}:${IMAGE_TAG} ./go-service
+        //             """
+        //         }
+        //     }
+        // }
+
+        // stage('Tag Docker Images') {
+        //     steps {
+        //         script {
+        //             sh """
+        //                 docker tag ${ECR_REPOSITORY_RAILS}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
+        //                 docker tag ${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
+        //                 docker tag ${ECR_REPOSITORY_GO}:${IMAGE_TAG} public.ecr.aws/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
+        //             """
+        //         }
+        //     }
+        // }
+
+        // stage('Push Docker Images') {
+        //     steps {
+        //         script {
+        //             sh """
+        //                 docker push public.ecr.aws/${ECR_REPOSITORY_RAILS}:${IMAGE_TAG}
+        //                 docker push public.ecr.aws/${ECR_REPOSITORY_PYTHON}:${IMAGE_TAG}
+        //                 docker push public.ecr.aws/${ECR_REPOSITORY_GO}:${IMAGE_TAG}
+        //             """
+        //         }
+        //     }
+        // }
     }
 
     post {
