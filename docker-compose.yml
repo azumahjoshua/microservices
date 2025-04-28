@@ -1,0 +1,24 @@
+services:
+  rails:
+    build:
+      context: ./rails-app
+      dockerfile: Dockerfile
+    ports: ["3000:3000"]
+    environment:
+      PYTHON_SERVICE_URL: "http://python:5000"
+    depends_on: ["python"]
+
+  python:
+    build:
+      context: ./python-service
+      dockerfile: Dockerfile
+    ports: ["5000:5000"]
+    environment:
+      GO_SERVICE_URL: "http://go:8080"
+    depends_on: ["go"]
+
+  go:
+    build:
+      context: ./go-service
+      dockerfile: Dockerfile
+    ports: ["8080:8080"]
