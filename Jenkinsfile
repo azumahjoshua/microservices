@@ -84,6 +84,38 @@ pipeline {
             }
         }
     
+        stage('Verify Kubernetes Connection') {
+            steps {
+                script {
+                    def result = sh(
+                        script: "kubectl get nodes --kubeconfig ~/.kube/config -o wide",
+                        returnStatus: true
+                    )
+                    if (result != 0) {
+                        echo "Jenkins cannot access the EKS cluster yet."
+                        currentBuild.result = 'UNSTABLE'
+                    } else {
+                        echo "Jenkins can access the EKS cluster."
+                    }
+                }
+            }
+        }
+         stage('Deploy to Kubernetes') {
+            when {
+                expression {
+                    // Only run if Jenkins already has cluster access
+                    sh(script: "kubectl get ns kube-system --kubeconfig ~/.kube/config > /dev/null 2>&1", returnStatus: true) == 0
+                }
+            }
+            steps {
+                script {
+                    echo "Deploying manifests to EKS..."
+                    sh """
+                        kubectl apply -f k8s/ --kubeconfig ~/.kube/config
+                    """
+                }
+            }
+        }
 
         // stage('Authenticate to ECR Public') {
         //     steps {
